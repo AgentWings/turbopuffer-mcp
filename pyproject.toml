@@ -1,0 +1,81 @@
+[build-system]
+requires = ["uv_build>=0.8.22,<0.9.0"]
+build-backend = "uv_build"
+
+[project]
+name = "turbopuffer-mcp"
+version = "0.0.1"
+description = "A Turbopuffer MCP server."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Dedalus Labs", email = "team@dedalus.ai" }]
+maintainers = [{ name = "Dedalus Labs", email = "team@dedalus.ai" }]
+keywords = ["ai", "mcp", "dedalus", "turbopuffer", "vector-search", "search"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "dedalus-mcp>=0.6.0",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.1",
+    "uvloop>=0.22.1; platform_system != 'Windows'",
+]
+
+[project.urls]
+Homepage = "https://turbopuffer.com/docs"
+Repository = "https://github.com/dedalus-labs/dedalus"
+
+[dependency-groups]
+runtime = ["pydantic>=2.12.5", "uvloop>=0.22.1; platform_system != 'Windows'"]
+test = ["anyio>=4.11.0", "pytest>=8.4.2", "pytest-asyncio>=1.2.0"]
+lint = ["ruff>=0.13.3"]
+dev = [
+    { include-group = "runtime" },
+    { include-group = "test" },
+    { include-group = "lint" },
+]
+
+[tool.uv]
+preview = true
+package = false
+default-groups = ["runtime"]
+
+[tool.uv.sources]
+
+[tool.uv.build-backend]
+source-exclude = [
+    "dist/**",
+    "**/__pycache__/**",
+    "**/build/**",
+    "**/.pytest_cache/**",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "N"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
